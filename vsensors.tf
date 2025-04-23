@@ -31,10 +31,6 @@ resource "aws_launch_template" "vsensor" {
     name = aws_iam_instance_profile.vsensor.name
   }
 
-  network_interfaces {
-    security_groups = [aws_security_group.vsensors_asg_sg.id]
-  }
-
   key_name = var.ssh_keyname
 
   metadata_options {

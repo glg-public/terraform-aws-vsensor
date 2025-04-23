@@ -32,8 +32,7 @@ resource "aws_launch_template" "vsensor" {
   }
 
   network_interfaces {
-    associate_public_ip_address = false
-    security_groups             = [aws_security_group.vsensors_asg_sg.id]
+    security_groups = [aws_security_group.vsensors_asg_sg.id]
   }
 
   key_name = var.ssh_keyname

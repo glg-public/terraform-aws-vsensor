@@ -1,5 +1,5 @@
 resource "aws_iam_instance_profile" "vsensor" {
-  name = "${local.deployment_id}-vsensor"
+  name = "darktrace-vsensor"
   role = aws_iam_role.vsensor_iam.name
   tags = local.all_tags
 }
@@ -22,7 +22,7 @@ locals {
 #
 
 resource "aws_launch_template" "vsensor" {
-  name          = "${local.deployment_id}-vsensor-${local.instance_version}"
+  name          = "darktrace-vsensor-${local.instance_version}"
   description   = "vSensor Launch Template"
   image_id      = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
@@ -50,8 +50,8 @@ resource "aws_launch_template" "vsensor" {
     cw_log_group         = aws_cloudwatch_log_group.vsensor_log_group.name
     cw_namespace         = local.cw_namespace
     cw_metrics_enable    = var.cw_metrics_enable
-    asg_name             = "${local.deployment_id}-vsensors-asg-${local.instance_version}"
-    asg_hook_name        = "${local.deployment_id}-vsensors-lifecyclehook"
+    asg_name             = "darktrace-vsensors-asg-${local.instance_version}"
+    asg_hook_name        = "darktrace-vsensors-lifecyclehook"
     parameter_version    = local.parameter_version
   }))
 
@@ -77,7 +77,7 @@ resource "aws_launch_template" "vsensor" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "${local.deployment_id}-vsensor"
+      Name = "darktrace-vsensor"
     }
   }
 
@@ -85,7 +85,7 @@ resource "aws_launch_template" "vsensor" {
 }
 
 resource "aws_autoscaling_group" "vsensors_asg" {
-  name_prefix      = "${local.deployment_id}-vsensors-asg-${local.instance_version}-"
+  name_prefix      = "darktrace-vsensors-asg-${local.instance_version}-"
   desired_capacity = var.desired_capacity
   max_size         = var.max_size
   min_size         = var.min_size
@@ -95,7 +95,7 @@ resource "aws_autoscaling_group" "vsensors_asg" {
   vpc_zone_identifier = local.vpc_private_subnets
 
   initial_lifecycle_hook {
-    name           = "${local.deployment_id}-vsensors-lifecyclehook"
+    name           = "darktrace-vsensors-lifecyclehook"
     default_result = "ABANDON"
     #it takes more than 7 min to complete the vSensor installation from the instance launch time hence 15 minutes timeout should be OK
     heartbeat_timeout    = 900
@@ -148,7 +148,7 @@ resource "aws_autoscaling_group" "vsensors_asg" {
 
 
 resource "aws_autoscaling_policy" "vsensors_asg_policy" {
-  name                   = "${local.deployment_id}-vsensors-asg-policy"
+  name                   = "darktrace-vsensors-asg-policy"
   policy_type            = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.vsensors_asg.name
 

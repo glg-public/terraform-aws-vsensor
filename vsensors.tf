@@ -26,6 +26,7 @@ resource "aws_launch_template" "vsensor" {
   description   = "vSensor Launch Template"
   image_id      = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
+  vpc_security_group_ids = [aws_security_group.vsensors_asg_sg.id]
 
   iam_instance_profile {
     name = aws_iam_instance_profile.vsensor.name

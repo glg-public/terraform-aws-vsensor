@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "vsensor_iam" {
     actions = ["autoscaling:CompleteLifecycleAction"]
     resources = [
       #https://docs.aws.amazon.com/autoscaling/ec2/userguide/tutorial-lifecycle-hook-instance-metadata.html
-      "arn:aws:autoscaling:*:${data.aws_caller_identity.current.account_id}:autoScalingGroup:*:autoScalingGroupName/${local.deployment_id}-vsensors-asg*"
+      "arn:aws:autoscaling:*:${data.aws_caller_identity.current.account_id}:autoScalingGroup:*:autoScalingGroupName/darktrace-vsensors-asg*"
     ]
   }
 

@@ -51,7 +51,7 @@ resource "aws_launch_template" "vsensor" {
     cw_log_group         = aws_cloudwatch_log_group.vsensor_log_group.name
     cw_namespace         = local.cw_namespace
     cw_metrics_enable    = var.cw_metrics_enable
-    asg_name             = aws_autoscaling_group.vsensors_asg.name
+    asg_name             = "darktrace-vsensors-asg-${local.instance_version}"
     asg_hook_name        = "darktrace-vsensors-lifecyclehook"
     parameter_version    = local.parameter_version
   }))
@@ -86,7 +86,7 @@ resource "aws_launch_template" "vsensor" {
 }
 
 resource "aws_autoscaling_group" "vsensors_asg" {
-  name_prefix      = "darktrace-vsensors-asg-${local.instance_version}-"
+  name             = "darktrace-vsensors-asg-${local.instance_version}"
   desired_capacity = var.desired_capacity
   max_size         = var.max_size
   min_size         = var.min_size

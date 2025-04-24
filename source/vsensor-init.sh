@@ -1,4 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash -x
+
+echo "TOP of script"
 
 function exittrap() {
     exitcode="$?"

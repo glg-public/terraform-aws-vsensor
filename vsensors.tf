@@ -1,5 +1,5 @@
 resource "aws_iam_instance_profile" "vsensor" {
-  name = "darktrace-vsensor"
+  name = "${local.deployment_id}-darktrace-vsensor"
   role = aws_iam_role.vsensor_iam.name
   tags = local.all_tags
 }

@@ -229,6 +229,25 @@ variable "vpc_private_subnets" {
   }
 }
 
+variable "asg_subnets" {
+  type        = list(any)
+  description = <<EOT
+  When Darktrace vSensor is deployed into an existing VPC this is the list of the **Subnet IDs** that the vSensors should be launched into.
+  You can specify at most one subnet per Availability Zone. Minimum one Subnet is required.
+  Required if you are deploying the Darktrace vSensor into an existing VPC.
+  EOT
+  default     = var.vpc_private_subnets
+
+  validation {
+    condition = alltrue([
+      for pri_sub_id in var.asg_subnets :
+      pri_sub_id == [] || pri_sub_id != [] && length(var.asg_subnets) >= 1
+    ])
+    error_message = "Minimum one Subnet is required."
+
+  }
+}
+
 #Network configuration new VPC
 variable "vpc_enable" {
   type        = bool

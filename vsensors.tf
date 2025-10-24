@@ -93,7 +93,7 @@ resource "aws_autoscaling_group" "vsensors_asg" {
 
   default_instance_warmup = 600
 
-  vpc_zone_identifier = local.vpc_private_subnets
+  vpc_zone_identifier = local.asg_subnets
 
   initial_lifecycle_hook {
     name           = "darktrace-vsensors-lifecyclehook"

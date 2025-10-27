@@ -28,6 +28,7 @@ locals {
 
   vpc_id              = local.vpc_enable ? aws_vpc.main[0].id : var.vpc_id
   vpc_private_subnets = local.vpc_enable ? aws_subnet.private.*.id : var.vpc_private_subnets
+  asg_subnets         = length(var.asg_subnets) > 0 ? var.asg_subnets : local.vpc_private_subnets
 
   availability_zone = local.vpc_enable ? var.availability_zone : []
 
